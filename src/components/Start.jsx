@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import rock from "/public/images/icon-rock.svg";
 import paper from "/public/images/icon-paper.svg"; 
 import scissors from "/public/images/icon-scissors.svg";
 
-const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemChoice, winner, setWinner }) => {
+const Start = ({ score, setScore, playerChoice, setPlayerChoice, systemChoice, setSystemChoice, }) => {
     const [showRules, setShowRules] = useState(false);
+    const [winner, setWinner] = useState(null);
 
     const generateSystemChoice = () => {
         const choices = ["rock", "paper", "scissors"];
@@ -12,6 +13,23 @@ const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemCh
         setSystemChoice(choices[randomIndex]);
         return choices[randomIndex];
     }
+
+    useEffect(() => {
+        if (playerChoice && systemChoice) {
+            if (playerChoice === systemChoice) {
+                setWinner("draw");
+            } else if (
+                (playerChoice === "rock" && systemChoice === "scissors") ||
+                (playerChoice === "paper" && systemChoice === "rock") ||
+                (playerChoice === "scissors" && systemChoice === "paper")
+            ) {
+                setWinner("player");
+                setScore(prevScore => prevScore + 1);
+            } else {
+                setWinner("system");
+            }
+        }
+    }, [playerChoice, systemChoice]);
 
   return (
     <div className='sm:h-screen sm:w-screen sm:overflow-hidden'>
@@ -38,7 +56,7 @@ const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemCh
             )}
 
             { playerChoice !== null && systemChoice !== null && (
-                <div className='flex sm:flex-row flex-col sm:items-center sm:justify-between sm:gap-0 gap-6 w-full mx-4 sm:m-0 lg:w-2/5 md:w-3/5 sm:w-4/5'>
+                <div className='flex sm:flex-row flex-col sm:items-center sm:justify-between sm:gap-0 gap-6 w-full mx-4 sm:m-0 lg:w-3/6 md:w-3/5 sm:w-4/5'>
                     <div className='flex flex-col items-center justify-center '>
                         <p className='text-2xl text-white font-semibold'>YOU PICKED</p>
 
@@ -46,6 +64,13 @@ const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemCh
                             <img className={`block bg-white p-4 lg:h-40 h-32 lg:w-40 w-32 rounded-full border-16 ${playerChoice === "rock"? "border-[#b52b44]" : playerChoice === "paper"? "border-[#474ae8]" : "border-[#E29C19]"} mt-4`} src={playerChoice === "rock"? rock : playerChoice === "paper"? paper : scissors} alt={playerChoice} />
                         </div>
                     </div>
+
+                    { winner !== null && (
+                        <div className='flex flex-col gap-4 items-center'>
+                            <h1 className='font-bold text-3xl text-white'>YOU {winner === "player"? "WIN" : winner === "system"? "LOSE" : "DRAW"}</h1>
+                            <button className='bg-white px-8 py-3 rounded-sm cursor-pointer' onClick={() => {setPlayerChoice(null); setSystemChoice(null); setWinner(null)}}>PLAY AGAIN</button>
+                        </div>
+                    )}
 
                     <div className='flex flex-col items-center justify-center '>
                         <p className='text-2xl text-white font-semibold'>THE HOUSE PICKED</p>
