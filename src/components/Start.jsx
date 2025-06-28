@@ -39,7 +39,15 @@ const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemCh
                 </div>
             )}
 
-            {/* { playerChoice !== null && systemChoice !== null && ()} */}
+            { playerChoice !== null && systemChoice !== null && (
+                <div>
+                    <p className='text-2xl text-white font-semibold'>YOU PICKED</p>
+
+                    <div>
+                        <img className={`block bg-white p-4 lg:h-40 h-32 lg:w-40 w-32 rounded-full border-16 ${playerChoice === "rock"? "border-[#b52b44]" : playerChoice === "paper"? "border-[#474ae8]" : "border-[#E29C19]"} mt-4`} src={playerChoice === "rock"? rock : playerChoice === "paper"? paper : scissors} alt={playerChoice} />
+                    </div>
+                </div>
+            )}
 
             <p className='text-white border-2 border-white px-10 py-2 rounded-md hover:text-black hover:border-black hover:scale-105 self-end mr-8 cursor-pointer' onClick={() => setShowRules(true)}>RULES</p>
         </div>
