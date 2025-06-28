@@ -3,8 +3,18 @@ import rock from "/public/images/icon-rock.svg";
 import paper from "/public/images/icon-paper.svg"; 
 import scissors from "/public/images/icon-scissors.svg";
 
-const Start = ({ score }) => {
+const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemChoice }) => {
     const [showRules, setShowRules] = useState(false);
+    const [randomNum, setRandomNum] = useState(0);
+
+    const generateSystemChoice = () => {
+        const choices = ["rock", "paper", "scissors"];
+        const randomIndex = Math.floor(Math.random() * choices.length);
+        setSystemChoice(choices[randomIndex]);
+        console.log(systemChoice);
+        return choices[randomIndex];
+    }
+
   return (
     <div className='h-screen w-screen overflow-hidden'>
         <div className='flex flex-col gap-12 items-center pt-12 h-screen '>
@@ -21,11 +31,15 @@ const Start = ({ score }) => {
                 </div>
             </div>
 
-            <div className='bg-[url("/public/images/bg-triangle.svg")] bg-no-repeat bg-cover lg:w-[350px] w-[250px] lg:h-[300px] h-[200px] relative'>
-                <img className='block absolute lg:bottom-[-24px] bottom-[-18px] lg:right-28 right-16 bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#b52b44] cursor-pointer' src={rock} alt="rock" />
-                <img className='block absolute left-[-12px] top-[-30px] bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#474ae8] cursor-pointer' src={paper} alt="paper" />
-                <img className='block absolute right-[-12px] top-[-30px] bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#E29C19] cursor-pointer' src={scissors} alt="scissors" />
-            </div>
+            { playerChoice === null && systemChoice === null && (
+                <div className='bg-[url("/public/images/bg-triangle.svg")] bg-no-repeat bg-cover lg:w-[350px] w-[250px] lg:h-[300px] h-[200px] relative'>
+                    <img className='block absolute lg:bottom-[-24px] bottom-[-18px] lg:right-28 right-16 bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#b52b44] cursor-pointer' onClick={() => {setPlayerChoice("rock"); generateSystemChoice();}} src={rock} alt="rock" />
+                    <img className='block absolute left-[-12px] top-[-30px] bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#474ae8] cursor-pointer' onClick={() => {setPlayerChoice("paper"); generateSystemChoice();}} src={paper} alt="paper" />
+                    <img className='block absolute right-[-12px] top-[-30px] bg-white p-4 lg:h-32 h-28 lg:w-32 w-28 rounded-full border-16 border-[#E29C19] cursor-pointer' onClick={() => {setPlayerChoice("scissors"); generateSystemChoice();}} src={scissors} alt="scissors" />
+                </div>
+            )}
+
+            {/* { playerChoice !== null && systemChoice !== null && ()} */}
 
             <p className='text-white border-2 border-white px-10 py-2 rounded-md hover:text-black hover:border-black hover:scale-105 self-end mr-8 cursor-pointer' onClick={() => setShowRules(true)}>RULES</p>
         </div>
