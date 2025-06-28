@@ -3,20 +3,18 @@ import rock from "/public/images/icon-rock.svg";
 import paper from "/public/images/icon-paper.svg"; 
 import scissors from "/public/images/icon-scissors.svg";
 
-const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemChoice }) => {
+const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemChoice, winner, setWinner }) => {
     const [showRules, setShowRules] = useState(false);
-    const [randomNum, setRandomNum] = useState(0);
 
     const generateSystemChoice = () => {
         const choices = ["rock", "paper", "scissors"];
         const randomIndex = Math.floor(Math.random() * choices.length);
         setSystemChoice(choices[randomIndex]);
-        console.log(systemChoice);
         return choices[randomIndex];
     }
 
   return (
-    <div className='h-screen w-screen overflow-hidden'>
+    <div className='sm:h-screen sm:w-screen sm:overflow-hidden'>
         <div className='flex flex-col gap-12 items-center pt-12 h-screen '>
             <div className='flex sm:flex-row flex-col sm:gap-0 gap-4 sm:text-start text-center justify-between border-2 border-white p-4 w-3/5 rounded-lg'>
                 <div>
@@ -40,11 +38,21 @@ const Start = ({ score, playerChoice, setPlayerChoice, systemChoice, setSystemCh
             )}
 
             { playerChoice !== null && systemChoice !== null && (
-                <div>
-                    <p className='text-2xl text-white font-semibold'>YOU PICKED</p>
+                <div className='flex sm:flex-row flex-col sm:items-center sm:justify-between sm:gap-0 gap-6 w-full mx-4 sm:m-0 lg:w-2/5 md:w-3/5 sm:w-4/5'>
+                    <div className='flex flex-col items-center justify-center '>
+                        <p className='text-2xl text-white font-semibold'>YOU PICKED</p>
 
-                    <div>
-                        <img className={`block bg-white p-4 lg:h-40 h-32 lg:w-40 w-32 rounded-full border-16 ${playerChoice === "rock"? "border-[#b52b44]" : playerChoice === "paper"? "border-[#474ae8]" : "border-[#E29C19]"} mt-4`} src={playerChoice === "rock"? rock : playerChoice === "paper"? paper : scissors} alt={playerChoice} />
+                        <div>
+                            <img className={`block bg-white p-4 lg:h-40 h-32 lg:w-40 w-32 rounded-full border-16 ${playerChoice === "rock"? "border-[#b52b44]" : playerChoice === "paper"? "border-[#474ae8]" : "border-[#E29C19]"} mt-4`} src={playerChoice === "rock"? rock : playerChoice === "paper"? paper : scissors} alt={playerChoice} />
+                        </div>
+                    </div>
+
+                    <div className='flex flex-col items-center justify-center '>
+                        <p className='text-2xl text-white font-semibold'>THE HOUSE PICKED</p>
+
+                        <div>
+                            <img className={`block bg-white p-4 lg:h-40 h-32 lg:w-40 w-32 rounded-full border-16 ${systemChoice === "rock"? "border-[#b52b44]" : systemChoice === "paper"? "border-[#474ae8]" : "border-[#E29C19]"} mt-4`} src={systemChoice === "rock"? rock : systemChoice === "paper"? paper : scissors} alt={systemChoice} />
+                        </div>
                     </div>
                 </div>
             )}
